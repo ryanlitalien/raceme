@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-lg-12">
+    <h3>Users ({{arrangedContent.length}}):</h3>
+    <!--<button {{!action 'save5k' race}}>Save Pace</button>-->
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+
+    <table width="98%" class="table table-striped table-hover" id="user-list-table">
+      <thead>
+        <tr>
+          <th style="text-align: left;" {{action 'sortFirst'}}>
+            First <img width="16px" class="inline-block {{if toggleFirst 'flipped'}}" src="assets/images/arrow-up.png">
+          </th>
+          <th style="text-align: left;" {{action 'sortLast'}}>
+            Last <img width="16px" class="inline-block {{if toggleLast 'flipped'}}" src="assets/images/arrow-up.png">
+          </th>
+          <th style="text-align: left;" {{action 'sortAge'}}>
+            Age <img width="16px" class="inline-block {{if toggleAge 'flipped'}}" src="assets/images/arrow-up.png">
+          </th>
+          <th style="text-align: left;" {{action 'sortFiveKPace'}}>
+            5k Pace <img width="16px" class="inline-block {{if toggleFiveKPace 'flipped'}}" src="assets/images/arrow-up.png">
+          </th>
+          {{#each miles as |mile|}}
+            <th style="text-align: center;">Mile {{mile}}</th>
+          {{/each}}
+          <th style="text-align: left;" {{action 'sortTotalTime'}}>
+            Total Time <img width="16px" class="inline-block {{if toggleTotalTime 'flipped'}}" src="assets/images/arrow-up.png">
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+      {{#each arrangedContent as |user|}}
+        <tr>
+          <!-- Two different styles of link-to -->
+          <td>{{#link-to 'users.user' user.id}}{{user.first}}{{/link-to}}</td>
+          <td>{{link-to user.last 'users.user' user.id}}</td>
+          <td>{{user.age}}</td>
+          <td>{{user.fiveKPace}}</td>
+          {{#each miles as |mile index|}}
+            <td style="text-align: center;">{{get user (mile-num index)}}</td>
+          {{/each}}
+          <td>{{user.totalTime}}</td>
+        </tr>
+      {{else}}
+        <tr><td colspan="4">No Users</td></tr>
+      {{/each}}
+      </tbody>
+    </table>
+
+  </div>
+</div>

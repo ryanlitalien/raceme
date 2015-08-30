@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="col-lg-12">
+    <h3>Races</h3>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <ul class="nav nav-pills">
+      {{#each model as |race|}}
+        {{#link-to 'races.race' race.id tagName="li" href=false}}
+          {{#link-to 'races.race' race.id bubbles=false}}
+            {{race.name}}
+          {{/link-to}}
+        {{/link-to}}
+      {{/each}}
+    </ul>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    {{outlet}}
+  </div>
+</div>

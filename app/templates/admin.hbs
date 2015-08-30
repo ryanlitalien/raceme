@@ -1,0 +1,16 @@
+<div class="row">
+  <h3>Admin</h3>
+</div>
+
+<div class="row">
+  <h5>Add New User</h5>
+  {{input value=first placeholder="First Name"}}
+  {{input value=last placeholder="Last Name"}}
+  <button {{action 'addUser' first last}}>Add</button>
+</div>
+
+<div class="row">
+  <h5>Load Race Data</h5>
+  {{textarea value=raceData placeholder="JSON" cols=50 rows=5}}
+  <button {{action 'loadRaces' raceData}}>Load Races</button>
+</div>
