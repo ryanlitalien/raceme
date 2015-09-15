@@ -3,6 +3,7 @@
 Controller = Ember.Controller.extend
   userCounter: 0
   mileCounter: 1
+  raceActive: false
 
   sortedUsers: Ember.computed ->
     @get('model').get('users').sortBy('fiveKPace')
@@ -12,14 +13,16 @@ Controller = Ember.Controller.extend
 
   raceFinished: Ember.computed 'userCounter', 'mileCounter', ->
     if @get('userCounter') == 9 && @get('mileCounter') == 13
-      alert 'Race done, congrats all athletes!'
+      #alert 'Race done, congrats all athletes!'
+      @set 'raceActive', false
 
   raceDidChange: Ember.observer 'model', ->
     @resetCounters()
 
   resetCounters: ->
-    @set('userCounter', 0)
-    @set('mileCounter', 1)
+    @set 'userCounter', 0
+    @set 'mileCounter', 1
+    @set 'raceActive', false
 
   updateUser: (user, index) ->
     seconds = Math.round(Math.random()*60) + 1
@@ -29,23 +32,25 @@ Controller = Ember.Controller.extend
       #console.log "SAVED | mile#{index}: #{newMile} | #{user.get('first')}"
 
   increment: ->
-    race = @get('model')
-    userCounter = @get('userCounter')
-    mileCounter = @get('mileCounter')
-    sortedUsers = race.get('users').sortBy('fiveKPace')
+    if @get('raceActive')
+      race = @get('model')
+      userCounter = @get('userCounter')
+      mileCounter = @get('mileCounter')
+      sortedUsers = race.get('users').sortBy('fiveKPace')
 
-    if mileCounter < 14 && userCounter <= sortedUsers.length
-      user = sortedUsers.objectAt(userCounter)
-      if user
-        @updateUser(user, mileCounter)
-        @set('userCounter', userCounter + 1)
-      if @get('userCounter') == sortedUsers.length
-        @set('userCounter', 0)
-        @set('mileCounter', mileCounter + 1)
-    else
-      alert 'Race done, congrats all athletes!'
+      if mileCounter < 14 && userCounter <= sortedUsers.length
+        user = sortedUsers.objectAt(userCounter)
+        if user
+          @updateUser(user, mileCounter)
+          @set('userCounter', userCounter + 1)
+        if @get('userCounter') == sortedUsers.length
+          @set('userCounter', 0)
+          @set('mileCounter', mileCounter + 1)
+  #    else
+  #      alert 'Race done, congrats all athletes!'
 
   startRace: (modifier) ->
+    @set 'raceActive', true
     for index in [1..(@get('raceLength') * @get('sortedUsers').length)]
       Ember.run.later =>
         @increment()
